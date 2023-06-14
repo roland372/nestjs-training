@@ -10,12 +10,18 @@ export class AuthController {
   @Post('auth/login')
   async login(@Request() req) {
     // return req.user;
-    return this.authService.login(req.user);
+    return this.authService.login(req.user, req);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
+    console.log('getProfile', req.session);
     return req.user;
+  }
+
+  @Get('/logout')
+  async logout(@Request() req) {
+    return this.authService.logout(req);
   }
 }

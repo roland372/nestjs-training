@@ -18,10 +18,22 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: any, req: any) {
     const payload = { username: user.username, sub: user.userId };
+
+    req.session.user = user; // add user to session
+    console.log('login', req.session);
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async logout(req) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destroying session:', err);
+      }
+      console.log('session destroyed');
+    });
   }
 }

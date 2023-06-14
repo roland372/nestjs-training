@@ -13,6 +13,7 @@ import { CreatePostDto, UpdatePostDto } from './dto/posts.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Role } from 'src/users/roles/role.enum';
 import { Roles } from 'src/users/roles/roles.decorator';
+import { SessionAuthGuard } from 'src/auth/session-auth.guard';
 
 @Controller('/posts')
 export class PostsController {
@@ -24,6 +25,7 @@ export class PostsController {
     return this.postsService.getPosts();
   }
 
+  @UseGuards(SessionAuthGuard)
   @Get('/:postId')
   getSinglePost(@Param('postId') postId: string) {
     return this.postsService.getSinglePost(postId);
