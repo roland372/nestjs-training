@@ -22,7 +22,7 @@ export class AuthService {
     const payload = { username: user.username, sub: user.userId };
 
     req.session.user = user; // add user to session
-    console.log('login', req.session);
+    // console.log('login', req.session);
     return {
       access_token: this.jwtService.sign(payload),
     };

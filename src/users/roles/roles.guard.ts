@@ -20,7 +20,14 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const user = this.usersService.findOne('john');
+    const request = context.switchToHttp().getRequest<any>();
+    const user = request.session.user;
+
+    // console.log('request', request);
+
+    if (!user) {
+      return false; // User is not authenticated
+    }
 
     const hasRequiredRole = Promise.all(
       requiredRoles.map(async (role) => {
